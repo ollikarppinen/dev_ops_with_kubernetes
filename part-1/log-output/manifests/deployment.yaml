@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: string-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: string-generator
+  template:
+    metadata:
+      labels:
+        app: string-generator
+    spec:
+      containers:
+        - name: string-generator
+          image: ollikarppinen/string-generator
