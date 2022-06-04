@@ -6,5 +6,5 @@ docker push ollikarppinen/string-generator
 
 kubectl create deployment string-generator --image=ollikarppinen/string-generator
 sleep 30
-kubectl logs deployment/string-generator >> logs.txt
+kubectl logs deployment/string-generator >> e-1.txt
 kubectl delete deployment string-generator
