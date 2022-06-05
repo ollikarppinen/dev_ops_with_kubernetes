@@ -5,7 +5,7 @@ const port = process.env.PORT;
 
 const requestListener = function (_req, res) {
   res.writeHead(200);
-  res.end("Great success!");
+  res.end("Exercise 1.05: Project v0.3");
 };
 
 const server = http.createServer(requestListener);
