@@ -1,7 +1,8 @@
 FROM node:16-alpine
 
+WORKDIR /
+
 ENV NODE_ENV production
-ENV PORT 3001
 
 COPY ./server.js .
 

@@ -1,7 +1,6 @@
 var http = require("http");
 
-const host = "localhost";
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const requestListener = function (_req, res) {
   res.writeHead(200);
@@ -9,6 +8,6 @@ const requestListener = function (_req, res) {
 };
 
 const server = http.createServer(requestListener);
-server.listen(port, host, () => {
+server.listen(port, () => {
   console.log(`Server started in port ${port}`);
 });
