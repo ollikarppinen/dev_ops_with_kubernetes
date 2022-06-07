@@ -1,7 +1,9 @@
-FROM alpine:3.16
+FROM node:18-alpine3.15
 
-RUN apk add --no-cache uuidgen=2.38-r1
+WORKDIR /app
 
-COPY entrypoint.sh ./
+COPY . ./
 
-CMD ["/entrypoint.sh"]
+RUN npm ci
+
+CMD ["npm", "start"]
