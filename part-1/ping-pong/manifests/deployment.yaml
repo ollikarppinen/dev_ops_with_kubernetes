@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: string-generator
+  name: ping-pong-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: string-generator
+      app: ping-pong
   template:
     metadata:
       labels:
-        app: string-generator
+        app: ping-pong
     spec:
       containers:
-        - name: string-generator
-          image: ollikarppinen/string-generator
+        - name: ping-pong
+          image: ollikarppinen/ping-pong
           imagePullPolicy: Always

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: string-generator-svc
+  name: ping-pong-svc
 spec:
   type: ClusterIP
   selector:
-    app: string-generator
+    app: ping-pong
   ports:
     - port: 2345
       protocol: TCP

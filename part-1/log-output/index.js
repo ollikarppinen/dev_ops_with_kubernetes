@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/status", (request, response) => {
+app.get("/logoutput", (request, response) => {
   const body = {
     timestamp: new Date().toISOString(),
     uuid: UUID,
