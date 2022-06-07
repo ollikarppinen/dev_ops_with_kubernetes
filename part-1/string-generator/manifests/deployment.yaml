@@ -15,3 +15,4 @@ spec:
       containers:
         - name: string-generator
           image: ollikarppinen/string-generator
+          imagePullPolicy: Always

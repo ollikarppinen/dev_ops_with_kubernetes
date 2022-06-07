@@ -13,7 +13,7 @@ app.get("/status", (request, response) => {
     timestamp: new Date().toISOString(),
     uuid: UUID,
   };
-  response.json(JSON.stringify(body));
+  response.json(body);
 });
 
 app.listen(PORT, () =>
