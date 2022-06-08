@@ -1,7 +1,5 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-
-const UUID = uuidv4();
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,9 +7,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get("/logoutput", (request, response) => {
+  var uuid = fs.readFileSync("/app/shared/uuid.txt", "utf8");
   const body = {
     timestamp: new Date().toISOString(),
-    uuid: UUID,
+    uuid: uuid,
   };
   response.json(body);
 });

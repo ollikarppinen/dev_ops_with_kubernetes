@@ -13,6 +13,20 @@ spec:
         app: log-output
     spec:
       containers:
-        - name: log-output
+        - name: log-output-reader
           image: ollikarppinen/log-output
           imagePullPolicy: Always
+          volumeMounts:
+            - name: shared-log
+              mountPath: /app/shared
+        - name: log-output-writer
+          image: ollikarppinen/log-output
+          imagePullPolicy: Always
+          command: ["npm"]
+          args: ["run", "writer"]
+          volumeMounts:
+            - name: shared-log
+              mountPath: /app/shared
+      volumes:
+        - name: shared-log
+          emptyDir: {}
