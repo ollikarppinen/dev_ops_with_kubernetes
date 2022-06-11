@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: delete-image-cronjob
 spec:
-  schedule: "* * * * *"
+  schedule: "* 0 * * *"
   jobTemplate:
     spec:
       template:
