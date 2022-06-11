@@ -7,10 +7,17 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get("/logoutput", (request, response) => {
-  var uuid = fs.readFileSync("/app/shared/uuid.txt", "utf8");
+  const uuid = fs.readFileSync("/app/shared/uuid.txt", "utf8");
+  const pingPongRequestCount = fs.readFileSync(
+    "/app/shared-ping-pong/request-count.txt",
+    "utf8"
+  );
+  const timestamp = new Date().toISOString();
+
   const body = {
-    timestamp: new Date().toISOString(),
-    uuid: uuid,
+    timestamp,
+    uuid,
+    pingPongRequestCount,
   };
   response.json(body);
 });

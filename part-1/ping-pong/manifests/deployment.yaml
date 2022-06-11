@@ -16,3 +16,10 @@ spec:
         - name: ping-pong
           image: ollikarppinen/ping-pong
           imagePullPolicy: Always
+          volumeMounts:
+            - name: shared-ping-pong
+              mountPath: /app/shared-ping-pong
+      volumes:
+        - name: shared-ping-pong
+          persistentVolumeClaim:
+            claimName: shared-pv-claim
