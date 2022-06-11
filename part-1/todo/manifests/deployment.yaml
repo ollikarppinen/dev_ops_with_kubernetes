@@ -16,3 +16,13 @@ spec:
         - name: todo
           image: ollikarppinen/todo
           imagePullPolicy: Always
+          env:
+            - name: PERSISTED_IMAGE_PATH
+              value: /app/shared-image/image.jpg
+          volumeMounts:
+            - name: shared-image
+              mountPath: /app/shared-image
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: shared-pv-claim
