@@ -4,6 +4,8 @@ WORKDIR /
 
 ENV NODE_ENV production
 
-COPY ./server.js .
+COPY . .
 
-CMD ["node", "server.js"]
+RUN npm ci
+
+CMD ["npm", "start"]

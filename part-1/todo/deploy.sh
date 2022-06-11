@@ -4,4 +4,5 @@ docker build --tag todo .
 docker tag todo ollikarppinen/todo
 docker push ollikarppinen/todo
 
-kubectl apply -f manifests/deployment.yaml
+kubectl delete deployments.apps/todo-dep
+kubectl apply -f manifests/
