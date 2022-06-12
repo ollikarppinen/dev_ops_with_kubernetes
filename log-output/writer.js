@@ -1,13 +1,24 @@
-const fs = require("fs");
+const express = require("express");
+const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 
-const writeUuid = () => {
-  const uuid = uuidv4();
-  fs.writeFile("/app/shared/uuid.txt", uuid, (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
-};
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-setInterval(writeUuid, 5000);
+let UUID = uuidv4();
+
+setInterval(() => (UUID = uuidv4()), 5000);
+
+app.use(express.json());
+app.use(morgan("tiny"));
+
+app.get("/uuid", (request, response) => {
+  const body = {
+    uuid: UUID,
+  };
+  response.json(body);
+});
+
+app.listen(PORT, () =>
+  console.log(`Express server currently running on port ${PORT}`)
+);

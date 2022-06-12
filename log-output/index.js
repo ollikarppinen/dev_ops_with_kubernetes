@@ -1,13 +1,24 @@
 const express = require("express");
+const fetch = require("node-fetch");
 const fs = require("fs");
+const morgan = require("morgan");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const UUID_URL = "http:localhost:3001/uuid";
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
-app.get("/logoutput", (request, response) => {
-  const uuid = fs.readFileSync("/app/shared/uuid.txt", "utf8");
+const fetchUuid = async () => {
+  const response = await fetch(UUID_URL);
+  const jsonResponse = await response.json();
+  return jsonResponse.uuid;
+};
+
+app.get("/logoutput", async (request, response) => {
+  const uuid = await fetchUuid();
+  console.log("UUID", uuid);
   const pingPongRequestCount = fs.readFileSync(
     "/app/shared-ping-pong/request-count.txt",
     "utf8"
@@ -23,5 +34,5 @@ app.get("/logoutput", (request, response) => {
 });
 
 app.listen(PORT, () =>
-  console.log(`Express server currently running on port ${PORT}`)
+  console.log(`Server is up and running @ http://localhost:${PORT}`)
 );

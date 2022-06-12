@@ -17,8 +17,6 @@ spec:
           image: ollikarppinen/log-output
           imagePullPolicy: Always
           volumeMounts:
-            - name: shared-uuid
-              mountPath: /app/shared
             - name: shared-ping-pong
               mountPath: /app/shared-ping-pong
         - name: log-output-writer
@@ -26,12 +24,7 @@ spec:
           imagePullPolicy: Always
           command: ["npm"]
           args: ["run", "writer"]
-          volumeMounts:
-            - name: shared-uuid
-              mountPath: /app/shared
       volumes:
-        - name: shared-uuid
-          emptyDir: {}
         - name: shared-ping-pong
           persistentVolumeClaim:
             claimName: shared-pv-claim
