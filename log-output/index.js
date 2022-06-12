@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const UUID_URL = "http:localhost:3001/uuid";
+const PING_PONG_URL = "http://ping-pong-svc/pingpong";
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -16,13 +17,15 @@ const fetchUuid = async () => {
   return jsonResponse.uuid;
 };
 
+const fetchPingPongs = async () => {
+  const response = await fetch(PING_PONG_URL);
+  const jsonResponse = await response.json();
+  return jsonResponse.pingPongs;
+};
+
 app.get("/logoutput", async (request, response) => {
   const uuid = await fetchUuid();
-  console.log("UUID", uuid);
-  const pingPongRequestCount = fs.readFileSync(
-    "/app/shared-ping-pong/request-count.txt",
-    "utf8"
-  );
+  const pingPongRequestCount = await fetchPingPongs();
   const timestamp = new Date().toISOString();
 
   const body = {

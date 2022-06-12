@@ -7,6 +7,11 @@ spec:
   selector:
     app: ping-pong
   ports:
-    - port: 2345
+    - name: public
+      port: 2345
       protocol: TCP
+      targetPort: 3000
+    - name: internal
+      protocol: TCP
+      port: 80
       targetPort: 3000

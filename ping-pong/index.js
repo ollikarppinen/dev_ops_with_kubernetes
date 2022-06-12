@@ -1,37 +1,20 @@
-const fs = require("fs");
 const express = require("express");
+const morgan = require("morgan");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
-fs.writeFile("/app/shared-ping-pong/request-count.txt", String(0), (err) => {
-  if (err) {
-    console.error("Initial ping pong request count write error", err);
-  }
-});
-
-const getPingPongRequestCount = (() => {
-  let pingPongRequestCount = 0;
-
-  return () => {
-    pingPongRequestCount++;
-    fs.writeFile(
-      "/app/shared-ping-pong/request-count.txt",
-      String(pingPongRequestCount),
-      (err) => {
-        if (err) {
-          console.error("Ping pong request count write error", err);
-        }
-      }
-    );
-    return pingPongRequestCount;
-  };
-})();
+let pingPongCount = 0;
 
 app.get("/pingpong", (request, response) => {
-  response.json(`pong ${getPingPongRequestCount()}`);
+  const body = {
+    pingPongs: pingPongCount,
+  };
+  pingPongCount++;
+  response.json(body);
 });
 
 app.listen(PORT, () =>
