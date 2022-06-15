@@ -8,16 +8,60 @@
     <div class="container">
       <h1>Todo</h1>
       <img src="image.jpg" class="img-fluid" alt="Responsive image" />
-      <form>
+      <form id="todoForm">
         <label for="ftodo">Todo</label>
-        <input type="text" id="ftodo" maxlength="140" />
+        <input
+          type="text"
+          id="todo-description"
+          name="description"
+          maxlength="140"
+        />
         <button type="submit">Create</button>
       </form>
-      <ul>
-        <li>todo 1</li>
-        <li>todo 2</li>
-        <li>todo 3</li>
-      </ul>
+      <ul id="todoList"></ul>
+      <script>
+        // Fetch todos
+        fetch("http://localhost:8081/api/todos")
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (todos) {
+            appendTodos(todos);
+          })
+          .catch(function (err) {
+            console.log("error: " + err);
+          });
+        function appendTodos(todos) {
+          var todoContainer = document.getElementById("todoList");
+          for (var i = 0; i < todos.length; i++) {
+            var li = document.createElement("li");
+            li.innerHTML = todos[i].description;
+            todoContainer.appendChild(li);
+          }
+        }
+        // Create todos
+        var form = document.getElementById("todoForm");
+        form.onsubmit = function (event) {
+          var xhr = new XMLHttpRequest();
+          var formData = new FormData(form);
+          //open the request
+          xhr.open("POST", "http://localhost:8081/api/todos");
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          //send the form data
+          xhr.send(JSON.stringify(Object.fromEntries(formData)));
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+              form.reset(); //reset form after AJAX success or do something else
+              var todo = JSON.parse(xhr.responseText);
+              appendTodos([todo]);
+            }
+          };
+          //Fail the onsubmit to avoid page refresh.
+          return false;
+        };
+      </script>
     </div>
   </body>
 </html>

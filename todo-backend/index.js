@@ -2,12 +2,16 @@ const express = require("express");
 const morgan = require("morgan");
 const { matchedData, body, validationResult } = require("express-validator");
 const { v4: uuidv4 } = require("uuid");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
+
+app.options("*", cors());
 
 let todos = [];
 
@@ -28,7 +32,7 @@ app.post(
 );
 
 app.get("/api/todos", async (request, response) => {
-  response.json({ todos });
+  response.json(todos);
 });
 
 app.listen(PORT, () =>
