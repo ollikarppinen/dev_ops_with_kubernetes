@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-dep
+  name: todo-frontend-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo
+      app: todo-frontend
   template:
     metadata:
       labels:
-        app: todo
+        app: todo-frontend
     spec:
       containers:
-        - name: todo
-          image: ollikarppinen/todo
+        - name: todo-frontend
+          image: ollikarppinen/todo-frontend
           imagePullPolicy: Always
           env:
             - name: PERSISTED_IMAGE_PATH
