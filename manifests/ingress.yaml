@@ -27,3 +27,10 @@ spec:
                 name: todo-frontend-svc
                 port:
                   number: 2345
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-backend-svc
+                port:
+                  number: 2345
