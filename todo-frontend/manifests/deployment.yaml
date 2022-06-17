@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-frontend-dep
+  namespace: todo
 spec:
   replicas: 1
   selector:
@@ -25,4 +26,4 @@ spec:
       volumes:
         - name: shared-image
           persistentVolumeClaim:
-            claimName: shared-pv-claim
+            claimName: todo-pv-claim

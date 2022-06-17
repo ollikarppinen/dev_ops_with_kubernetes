@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ping-pong-dep
+  namespace: log
 spec:
   replicas: 1
   selector:
@@ -22,4 +23,4 @@ spec:
       volumes:
         - name: shared-ping-pong
           persistentVolumeClaim:
-            claimName: shared-pv-claim
+            claimName: log-pv-claim
