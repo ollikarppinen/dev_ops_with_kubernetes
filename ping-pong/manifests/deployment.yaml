@@ -17,6 +17,21 @@ spec:
         - name: ping-pong
           image: ollikarppinen/ping-pong
           imagePullPolicy: Always
+          env:
+            - name: PGHOST
+              value: "postgres-svc"
+            - name: PGUSER
+              value: "postgres"
+            - name: PGDATABASE
+              value: "postgres"
+            - name: PGPORT
+              value: "5432"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+                  optional: false
           volumeMounts:
             - name: shared-ping-pong
               mountPath: /app/shared-ping-pong
