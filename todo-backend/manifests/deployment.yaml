@@ -17,3 +17,18 @@ spec:
         - name: todo-backend
           image: ollikarppinen/todo-backend
           imagePullPolicy: Always
+          env:
+            - name: PGHOST
+              value: "postgres-svc"
+            - name: PGUSER
+              value: "postgres"
+            - name: PGDATABASE
+              value: "postgres"
+            - name: PGPORT
+              value: "5432"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+                  optional: false

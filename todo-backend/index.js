@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const { matchedData, body, validationResult } = require("express-validator");
-const { v4: uuidv4 } = require("uuid");
 const cors = require("cors");
+const { Client } = require("pg");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,19 @@ app.use(morgan("tiny"));
 
 app.options("*", cors());
 
-let todos = [];
+const client = new Client();
+client.connect();
+
+const createTodoQuery = (description) => ({
+  name: "create-todo",
+  text: "INSERT INTO todos (created_at, description) VALUES(current_timestamp, $1)",
+  values: [description],
+});
+
+const fetchTodosQuery = {
+  name: "fetch-todos",
+  text: "SELECT * FROM todos",
+};
 
 app.post(
   "/api/todos",
@@ -23,16 +35,29 @@ app.post(
     if (!errors.isEmpty()) {
       return response.status(400).json({ errors: errors.array() });
     }
-    const bodyData = matchedData(request, { locations: ["body"] });
-    const newTodo = { uuid: uuidv4(), ...bodyData };
-    todos.push(newTodo);
-
-    response.json(newTodo);
+    const description = matchedData(request, {
+      locations: ["body"],
+    }).description;
+    client.query(createTodoQuery(description), (err, res) => {
+      if (err) {
+        console.log("create todo failed", err.stack);
+        return response.status(400).json({ error: "Failed to create todo" });
+      } else {
+        return response.json({ description });
+      }
+    });
   }
 );
 
 app.get("/api/todos", async (request, response) => {
-  response.json(todos);
+  client.query(fetchTodosQuery, (err, res) => {
+    if (err) {
+      console.log("fetch todos failed", err.stack);
+      return response.status(400).json({ error: "Failed to fetch todos" });
+    } else {
+      return response.json(res.rows);
+    }
+  });
 });
 
 app.listen(PORT, () =>
