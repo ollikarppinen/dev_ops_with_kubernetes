@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wiki-todo-script
+  namespace: todo
+data:
+  script.sh: |
+    #!/bin/sh
+    echo "Creating random wiki todo";
+    description=$(curl -I https://en.wikipedia.org/wiki/Special:Random | tr -d '\r' | sed -En 's/^location: (.*)/\1/p');
+    curl -X POST -H "Content-Type:application/json" --data '{"description":"'$description'"}' http://todo-backend-svc:2345/api/todos;
+    echo "Random wiki todo created";

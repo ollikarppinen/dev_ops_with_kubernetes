@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: create-wiki-todo-cronjob
+  namespace: todo
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: create-wiki-todo
+              image: alpine/curl:3.14
+              imagePullPolicy: IfNotPresent
+              command: ["/bin/sh", "-c", "/scripts/script.sh"]
+              volumeMounts:
+                - name: script
+                  mountPath: /scripts/script.sh
+                  subPath: script.sh
+          volumes:
+            - name: script
+              configMap:
+                name: wiki-todo-script
+                defaultMode: 0777
+          restartPolicy: OnFailure
