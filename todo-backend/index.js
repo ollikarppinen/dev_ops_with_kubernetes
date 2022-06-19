@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan("tiny"));
+app.use(morgan("combined"));
 
 app.options("*", cors());
 
@@ -29,7 +29,7 @@ const fetchTodosQuery = {
 
 app.post(
   "/api/todos",
-  body("description").notEmpty().isString(),
+  body("description").notEmpty().isString().isLength({ min: 1, max: 140 }),
   async (request, response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
