@@ -1,8 +1,9 @@
 #!/bin/bash
 
-docker build --tag ping-pong .
-docker tag ping-pong ollikarppinen/ping-pong
-docker push ollikarppinen/ping-pong
+# docker build --tag ping-pong .
+# docker tag ping-pong ollikarppinen/ping-pong
+# docker push ollikarppinen/ping-pong
+docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag ollikarppinen/ping-pong .
 
 kubectl delete -n log deployments.apps/ping-pong-dep
 kubectl apply -f manifests/deployment.yaml
