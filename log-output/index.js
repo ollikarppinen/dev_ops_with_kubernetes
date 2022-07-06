@@ -20,8 +20,12 @@ const fetchUuid = async () => {
 const fetchPingPongs = async () => {
   const response = await fetch(PING_PONG_URL);
   const jsonResponse = await response.json();
-  return jsonResponse.pingPongs;
+  return jsonResponse.count;
 };
+
+app.get("/", (request, response) => {
+  response.status(200).send("Ok");
+});
 
 app.get("/logoutput", async (request, response) => {
   const uuid = await fetchUuid();

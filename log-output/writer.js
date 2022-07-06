@@ -12,6 +12,10 @@ setInterval(() => (UUID = uuidv4()), 5000);
 app.use(express.json());
 app.use(morgan("tiny"));
 
+app.get("/", (request, response) => {
+  response.status(200).send("Ok");
+});
+
 app.get("/uuid", (request, response) => {
   const body = {
     uuid: UUID,

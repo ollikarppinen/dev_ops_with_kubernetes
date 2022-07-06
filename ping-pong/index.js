@@ -21,6 +21,10 @@ const pingPongCountQuery = {
   text: "SELECT COUNT(*) FROM pingpongs",
 };
 
+app.get("/", (request, response) => {
+  response.status(200).send("Ok");
+});
+
 app.get("/pingpong", (request, response) => {
   client.query(createPingPongQuery, (err, res) => {
     if (err) {
