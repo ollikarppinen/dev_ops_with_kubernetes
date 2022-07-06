@@ -23,15 +23,8 @@ spec:
                 configMapKeyRef:
                   name: log-config
                   key: log_message
-          volumeMounts:
-            - name: shared-ping-pong
-              mountPath: /app/shared-ping-pong
         - name: log-output-writer
           image: ollikarppinen/log-output
           imagePullPolicy: Always
           command: ["npm"]
           args: ["run", "writer"]
-      volumes:
-        - name: shared-ping-pong
-          persistentVolumeClaim:
-            claimName: log-pv-claim

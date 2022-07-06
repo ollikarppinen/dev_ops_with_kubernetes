@@ -1,9 +1,7 @@
 #!/bin/bash
 
-docker build --tag log-output .
-docker tag log-output ollikarppinen/log-output
-docker push ollikarppinen/log-output
+kubectl create namespace log
 
-kubectl delete deployments.apps/log-output
+docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag ollikarppinen/log-output .
+
 kubectl apply -f manifests/
-kubectl logs deployments.apps/log-output -f
