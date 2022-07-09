@@ -1,10 +1,11 @@
 #!/bin/bash
 
-docker build --tag todo-backend .
-docker tag todo-backend ollikarppinen/todo-backend
-docker push ollikarppinen/todo-backend
+docker buildx build --push --tag ollikarppinen/todo-backend --platform linux/arm/v7,linux/arm64/v8,linux/amd64 .
+# docker build --tag todo-backend .
+# docker tag todo-backend ollikarppinen/todo-backend
+# docker push ollikarppinen/todo-backend
 
-kubectl delete -n todo deployments.apps/todo-backend-dep
+# kubectl delete -n todo deployments.apps/todo-backend-dep
 
 kubectl apply -f manifests/deployment.yaml
 kubectl apply -f manifests/postgres-svc.yaml

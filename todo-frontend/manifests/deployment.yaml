@@ -17,6 +17,13 @@ spec:
         - name: todo-frontend
           image: ollikarppinen/todo-frontend
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           env:
             - name: PERSISTED_IMAGE_PATH
               value: /app/shared-image/image.jpg

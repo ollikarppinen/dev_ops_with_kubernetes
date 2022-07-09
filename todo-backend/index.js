@@ -27,6 +27,10 @@ const fetchTodosQuery = {
   text: "SELECT * FROM todos",
 };
 
+app.get("/", (request, response) => {
+  response.status(200).send("Ok");
+});
+
 app.post(
   "/api/todos",
   body("description").notEmpty().isString().isLength({ min: 1, max: 140 }),

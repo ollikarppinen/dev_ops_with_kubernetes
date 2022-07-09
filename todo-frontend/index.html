@@ -21,7 +21,7 @@
       <ul id="todoList"></ul>
       <script>
         // Fetch todos
-        fetch("http://localhost:8081/api/todos")
+        fetch("/api/todos")
           .then(function (response) {
             return response.json();
           })
@@ -45,7 +45,7 @@
           var xhr = new XMLHttpRequest();
           var formData = new FormData(form);
           //open the request
-          xhr.open("POST", "http://localhost:8081/api/todos");
+          xhr.open("POST", "/api/todos");
           xhr.setRequestHeader("Content-Type", "application/json");
 
           //send the form data
