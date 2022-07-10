@@ -5,4 +5,4 @@ resources:
   - manifests/service.yaml
 images:
   - name: PROJECT/IMAGE
-    newName: ollikarppinen/todo-frontend
+    newName: todo-frontend
