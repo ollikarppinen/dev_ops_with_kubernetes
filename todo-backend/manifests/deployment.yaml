@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: ollikarppinen/todo-backend
+          image: PROJECT/IMAGE
           imagePullPolicy: Always
           resources:
             requests:
