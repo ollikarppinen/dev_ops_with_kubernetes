@@ -24,7 +24,7 @@ jobs:
         run: |-
           docker build \
             --tag "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
-            .
+            ./todo-frontend/
       - name: Publish
         run: |-
           docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
