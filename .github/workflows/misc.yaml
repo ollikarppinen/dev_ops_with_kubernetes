@@ -1,0 +1,37 @@
+name: Release misc stuff (Ingress, Persistent Volumes...)
+on: [push]
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dev-ops-with-kubernetes-cluster
+  GKE_ZONE: europe-north1-b
+jobs:
+  build-publish-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@main
+        with:
+          project_id: ${{ secrets.GKE_PROJECT }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          export_default_credentials: true
+      - run: gcloud --quiet auth configure-docker
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Sops Binary Installer
+        uses: mdgreenwald/mozilla-sops-action@v1.2.0
+      - name: Create namespace
+        run: |-
+          kubectl create namespace todo
+      - name: Create persistent volume
+        run: |-
+          kubectl apply -f manifests/todo-pv.yaml
+          kubectl apply -f manifests/todo-pv-claim.yaml
+          sops --decrypt todo-backend/manifests/secret.enc.yaml | kubectl apply -f -
+          kubectl apply -f todo-backend/manifests/postgres-svc.yaml
+          kubectl apply -f todo-backend/manifests/postgres-statefulset.yaml
+          kubectl apply -f manifests/todo-ingress.yaml
+      - name: Create DB schema
+        run: |-
+          kubectl exec -it -n todo statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
