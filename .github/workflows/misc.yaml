@@ -23,7 +23,7 @@ jobs:
         uses: mdgreenwald/mozilla-sops-action@v1.2.0
       - name: Create namespace
         run: |-
-          kubectl create namespace todo
+          kubectl create namespace todo || echo "Namespace already created"
       - name: Create persistent volume
         run: |-
           kubectl apply -f manifests/todo-pv.yaml
