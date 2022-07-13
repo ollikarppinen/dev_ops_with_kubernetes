@@ -36,4 +36,4 @@ jobs:
           kubectl apply -f manifests/todo-ingress.yaml
       - name: Create DB schema
         run: |-
-          kubectl exec -it -n todo statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
+          kubectl exec -it -n todo statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
