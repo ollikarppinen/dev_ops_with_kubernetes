@@ -36,9 +36,6 @@ jobs:
           kubectl apply -f todo-backend/manifests/postgres-svc.yaml
           kubectl apply -f todo-backend/manifests/postgres-statefulset.yaml
           kubectl apply -f manifests/todo-ingress.yaml
-      # - name: Create DB schema
-      #   run: |-
-      #     kubectl exec -it statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
   frontend-deploy:
     name: Frontend deploy
     needs: create-namespace
@@ -105,3 +102,11 @@ jobs:
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment todo-backend-dep
           kubectl get services -o wide
+  create-schema:
+    name: Create DB schema
+    needs: backend-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create DB schema
+        run: |-
+          kubectl exec -it statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
