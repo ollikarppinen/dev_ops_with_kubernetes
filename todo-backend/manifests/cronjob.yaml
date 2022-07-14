@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: create-wiki-todo-cronjob
-  namespace: todo
 spec:
   schedule: "0 0 * * *"
   jobTemplate:
