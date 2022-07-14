@@ -5,7 +5,6 @@ env:
   GKE_CLUSTER: dev-ops-with-kubernetes-cluster
   GKE_ZONE: europe-north1-b
   SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
-  NAMESPACE: todo-${{ GITHUB_REF#refs/heads/ }}
   FRONTEND_IMAGE: todo-frontend
   BACKEND_IMAGE: todo-backend
 jobs:
@@ -30,15 +29,16 @@ jobs:
           kubectl create namespace "$NAMESPACE" || echo "Namespace \"$NAMESPACE\" already created"
       - name: Create persistent volume
         run: |-
-          sops --decrypt todo-backend/manifests/secret.enc.yaml | kubectl apply --namespace="$NAMESPACE" -f -
-          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-pv.yaml
-          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-pv-claim.yaml
-          kubectl apply --namespace="$NAMESPACE" -f todo-backend/manifests/postgres-svc.yaml
-          kubectl apply --namespace="$NAMESPACE" -f todo-backend/manifests/postgres-statefulset.yaml
-          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-ingress.yaml
+          kubectl config set-context --current --namespace="todo-${GITHUB_REF_NAME}"
+          sops --decrypt todo-backend/manifests/secret.enc.yaml | kubectl apply -f -
+          kubectl apply -f manifests/todo-pv.yaml
+          kubectl apply -f manifests/todo-pv-claim.yaml
+          kubectl apply -f todo-backend/manifests/postgres-svc.yaml
+          kubectl apply -f todo-backend/manifests/postgres-statefulset.yaml
+          kubectl apply -f manifests/todo-ingress.yaml
       - name: Create DB schema
         run: |-
-          kubectl exec -it -n "$NAMESPACE" statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
+          kubectl exec -it statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
   frontend-deploy:
     name: Frontend deploy
     needs: create-namespace
@@ -66,11 +66,12 @@ jobs:
         uses: imranismail/setup-kustomize@v1
       - name: Deploy
         run: |-
+          kubectl config set-context --current --namespace="todo-${GITHUB_REF_NAME}"
           cd todo-frontend
           kustomize edit set image PROJECT/IMAGE=gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
-          kustomize build . | kubectl apply --namespace="$NAMESPACE" -f -
-          kubectl rollout status deployment -n "$NAMESPACE" todo-frontend-dep
-          kubectl get services -n "$NAMESPACE" -o wide
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment todo-frontend-dep
+          kubectl get services -o wide
   backend-deploy:
     name: Backend deploy
     needs: create-namespace
@@ -98,8 +99,9 @@ jobs:
         uses: imranismail/setup-kustomize@v1
       - name: Deploy
         run: |-
+          kubectl config set-context --current --namespace="todo-${GITHUB_REF_NAME}"
           cd todo-backend
           kustomize edit set image PROJECT/IMAGE=gcr.io/$PROJECT_ID/$BACKEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
-          kustomize build . | kubectl apply --namespace="$NAMESPACE" -f -
-          kubectl rollout status deployment -n "$NAMESPACE" todo-backend-dep
-          kubectl get services -n "$NAMESPACE" -o wide
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment todo-backend-dep
+          kubectl get services -o wide
