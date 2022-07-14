@@ -26,7 +26,7 @@ jobs:
         uses: mdgreenwald/mozilla-sops-action@v1.2.0
       - name: Create namespace
         run: |-
-          kubectl create namespace "$NAMESPACE" || echo "Namespace \"$NAMESPACE\" already created"
+          kubectl create namespace "todo-${GITHUB_REF_NAME}" || echo "Namespace \"$NAMESPACE\" already created"
       - name: Create persistent volume
         run: |-
           kubectl config set-context --current --namespace="todo-${GITHUB_REF_NAME}"
