@@ -5,6 +5,7 @@ env:
   GKE_CLUSTER: dev-ops-with-kubernetes-cluster
   GKE_ZONE: europe-north1-b
   SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+  NAMESPACE: todo-${GITHUB_REF#refs/heads/}
 jobs:
   build-publish-deploy:
     name: Deploy
@@ -24,16 +25,15 @@ jobs:
         uses: mdgreenwald/mozilla-sops-action@v1.2.0
       - name: Create namespace
         run: |-
-          kubectl create namespace todo || echo "Namespace already created"
+          kubectl create namespace "$NAMESPACE" || echo "Namespace \"$NAMESPACE\" already created"
       - name: Create persistent volume
         run: |-
-          sops --decrypt todo-backend/manifests/secret.enc.yaml
-          sops --decrypt todo-backend/manifests/secret.enc.yaml | kubectl apply -f -
-          kubectl apply -f manifests/todo-pv.yaml
-          kubectl apply -f manifests/todo-pv-claim.yaml
-          kubectl apply -f todo-backend/manifests/postgres-svc.yaml
-          kubectl apply -f todo-backend/manifests/postgres-statefulset.yaml
-          kubectl apply -f manifests/todo-ingress.yaml
+          sops --decrypt todo-backend/manifests/secret.enc.yaml | kubectl apply --namespace="$NAMESPACE" -f -
+          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-pv.yaml
+          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-pv-claim.yaml
+          kubectl apply --namespace="$NAMESPACE" -f todo-backend/manifests/postgres-svc.yaml
+          kubectl apply --namespace="$NAMESPACE" -f todo-backend/manifests/postgres-statefulset.yaml
+          kubectl apply --namespace="$NAMESPACE" -f manifests/todo-ingress.yaml
       - name: Create DB schema
         run: |-
-          kubectl exec -it -n todo statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
+          kubectl exec -it -n "$NAMESPACE" statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS todos (created_at TIMESTAMP NOT NULL, description TEXT NOT NULL)"
