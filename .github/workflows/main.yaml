@@ -5,7 +5,7 @@ env:
   GKE_CLUSTER: dev-ops-with-kubernetes-cluster
   GKE_ZONE: europe-north1-b
   SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
-  NAMESPACE: todo-${GITHUB_REF#refs/heads/}
+  NAMESPACE: todo-${{ GITHUB_REF#refs/heads/ }}
   FRONTEND_IMAGE: todo-frontend
   BACKEND_IMAGE: todo-backend
 jobs:
