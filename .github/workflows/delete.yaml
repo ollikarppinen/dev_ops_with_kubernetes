@@ -1,7 +1,6 @@
 name: Delete Todo project
 on: [delete]
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: dev-ops-with-kubernetes-cluster
   GKE_ZONE: europe-north1-b
 jobs:
@@ -15,6 +14,7 @@ jobs:
           project_id: ${{ secrets.GKE_PROJECT }}
           service_account_key: ${{ secrets.GKE_SA_KEY }}
           export_default_credentials: true
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
       - name: Delete namespace
         run: |-
           kubectl delete namespace "todo-${GITHUB_REF_NAME}" || true
