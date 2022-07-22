@@ -35,3 +35,7 @@
 ## Exercise 3.07
 
 I chose to use persistent volume claims in the todo project because it was straight forward to implement. I implemented at earlier stage and I guess then I mistakenly assumed that I had to deploy the project with db on top of persistent volume. Now here I am with the exercise 3.07 with that already implemented.
+
+## Screen from todo creation logs (Exercise 3.10)
+
+![todo post logs image](./todo-post-logs.png)
