@@ -14,3 +14,5 @@ kubectl apply -f manifests/postgres-statefulset.yaml
 kubectl apply -f manifests/postgres-svc.yaml
 kubectl apply -f manifests/deployment.yaml
 kubectl apply -f manifests/service.yaml
+
+kubectl exec -it -n log statefulsets/postgres-ss -- psql -U postgres -d postgres -c "CREATE TABLE IF NOT EXISTS pingpongs (created_at TIMESTAMP NOT NULL)"

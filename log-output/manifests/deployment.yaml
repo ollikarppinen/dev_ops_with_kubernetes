@@ -17,6 +17,13 @@ spec:
         - name: log-output-reader
           image: ollikarppinen/log-output
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "200Mi"
+              cpu: "150m"
           env:
             - name: LOG_MESSAGE
               valueFrom:
@@ -26,5 +33,12 @@ spec:
         - name: log-output-writer
           image: ollikarppinen/log-output
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "200Mi"
+              cpu: "150m"
           command: ["npm"]
           args: ["run", "writer"]
