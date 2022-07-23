@@ -6,6 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const UUID_URL = "http:localhost:3001/uuid";
 const PING_PONG_URL = "http://ping-pong-svc/pingpong";
+const PING_PONG_READINESS_URL = "http://ping-pong-svc/healthz";
 const LOG_MESSAGE = process.env.LOG_MESSAGE || "Default log message";
 
 app.use(express.json());
@@ -25,6 +26,15 @@ const fetchPingPongs = async () => {
 
 app.get("/", (request, response) => {
   response.status(200).send("Ok");
+});
+
+app.get("/healthz", async (request, response) => {
+  const pingPongHealthzResponse = await fetch(PING_PONG_READINESS_URL);
+  console.log(
+    "Ping pong healthz request status",
+    pingPongHealthzResponse.status
+  );
+  response.status(pingPongHealthzResponse.status).send("Ok");
 });
 
 app.get("/logoutput", async (request, response) => {
