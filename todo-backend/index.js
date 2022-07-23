@@ -31,6 +31,18 @@ app.get("/", (request, response) => {
   response.status(200).send("Ok");
 });
 
+app.get("/healthz", (request, response) => {
+  client.query("SELECT NOW()", (err, res) => {
+    if (err) {
+      console.log("healthz failed", err.stack);
+      return response.status(500).send("Not ok");
+    } else {
+      console.log("HEALTHZ SUCCESS", res.rows);
+      response.status(200).send("Ok");
+    }
+  });
+});
+
 app.post(
   "/api/todos",
   body("description").notEmpty().isString().isLength({ min: 1, max: 140 }),

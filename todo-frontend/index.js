@@ -24,6 +24,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
 });
 
+app.get("/healthz", (req, res) => {
+  res.sendFile(path.join(__dirname, "/index.html"));
+});
+
 app.get("/image.jpg", async (req, res) => {
   try {
     if (!fs.existsSync(PERSISTED_IMAGE_PATH)) await downloadImage();
