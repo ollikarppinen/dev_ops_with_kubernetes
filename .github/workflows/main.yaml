@@ -9,6 +9,7 @@ env:
   BACKEND_IMAGE: todo-backend
 jobs:
   create-namespace:
+    if: ${{ false }}
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +38,7 @@ jobs:
           kubectl apply -f todo-backend/manifests/postgres-statefulset.yaml
           kubectl apply -f manifests/todo-ingress.yaml
   frontend-deploy:
+    if: ${{ false }}
     name: Frontend deploy
     needs: create-namespace
     runs-on: ubuntu-latest
@@ -70,6 +72,7 @@ jobs:
           kubectl rollout status deployment todo-frontend-dep
           kubectl get services -o wide
   backend-deploy:
+    if: ${{ false }}
     name: Backend deploy
     needs: create-namespace
     runs-on: ubuntu-latest
