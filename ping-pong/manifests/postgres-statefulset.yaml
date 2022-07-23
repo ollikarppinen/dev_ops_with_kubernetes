@@ -30,7 +30,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
-              subPath: postgres
+              # subPath: postgres
       #       - name: postgres-script
       #         mountPath: /docker-entrypoint-initdb.d/init-db.sh
       #         subPath: init-db.sh
@@ -44,7 +44,7 @@ spec:
         name: data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: standard
+        storageClassName: local-path
         resources:
           requests:
             storage: 100Mi
