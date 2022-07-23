@@ -5,4 +5,4 @@ resources:
   - manifests/service.yaml
 images:
   - name: PROJECT/IMAGE
-    newName: gcr.io/dev-ops-with-kubernetes/todo-backend
+    newName: ollikarppinen/todo-backend
