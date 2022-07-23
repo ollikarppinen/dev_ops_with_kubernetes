@@ -24,6 +24,12 @@ spec:
             limits:
               memory: "200Mi"
               cpu: "150m"
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
           env:
             - name: PGHOST
               value: "postgres-svc"
