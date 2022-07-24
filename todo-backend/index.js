@@ -22,11 +22,6 @@ const createTodoQuery = (description) => ({
   values: [description],
 });
 
-const markTodoDoneQuery = (id) => ({
-  name: "mark-todo-done",
-  text: `UPDATE todos SET done = true WHERE id = ${id}`,
-});
-
 const fetchTodosQuery = {
   name: "fetch-todos",
   text: "SELECT * FROM todos",
@@ -75,7 +70,7 @@ app.put("/api/todos/:id", async (request, response) => {
   const id = parseInt(request.params.id);
   if (!Number.isInteger(id))
     return response.status(400).json({ error: "Id is not integer!" });
-  client.query(markTodoDoneQuery(id), (err, res) => {
+  client.query(`UPDATE todos SET done = true WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log("mark todo done failed", err.stack);
       return response.status(400).json({ error: "Failed to mark todo done" });

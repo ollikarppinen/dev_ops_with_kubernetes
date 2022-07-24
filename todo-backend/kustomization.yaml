@@ -6,4 +6,4 @@ resources:
 images:
 - name: PROJECT/IMAGE
   newName: ollikarppinen/todo-backend
-  newTag: 9bdef89
+  newTag: 9a42b69
