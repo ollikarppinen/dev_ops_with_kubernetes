@@ -13,4 +13,8 @@ else
   kustomize edit set image PROJECT/IMAGE="$image"
 fi
 
+export SOPS_AGE_KEY_FILE=../key.txt
+# sops --encrypt --age agePUBLIC_KEY manifests/secret.yaml > manifests/secret.enc.yaml
+sops --decrypt manifests/secret.enc.yaml | kubectl apply -f -
+
 kubectl apply -k .
