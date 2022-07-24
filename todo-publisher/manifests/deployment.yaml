@@ -4,7 +4,7 @@ metadata:
   name: todo-publisher-dep
   namespace: todo
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: todo-publisher

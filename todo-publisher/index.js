@@ -19,7 +19,8 @@ const nats = require("nats");
 
 const NATS_URL =
   process.env.NATS_URL || "nats://my-nats.default.svc.cluster.local:4222";
-const TODO_TOPIC = "todos";
+const NATS_TODO_TOPIC = "todos";
+const NATS_QUEUE = "todo-publisher";
 
 const { connect, StringCodec } = nats;
 
@@ -27,7 +28,7 @@ const setupSubscriptions = async () => {
   try {
     const nc = await connect({ servers: NATS_URL });
     const sc = StringCodec();
-    const sub = nc.subscribe(TODO_TOPIC);
+    const sub = nc.subscribe(NATS_TODO_TOPIC, { queue: NATS_QUEUE });
     for await (const m of sub) {
       console.log(`[${sub.getProcessed()}]: ${sc.decode(m.data)}`);
     }
