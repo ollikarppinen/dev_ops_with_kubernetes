@@ -21,7 +21,7 @@
       <ul id="todoList"></ul>
       <script>
         // Fetch todos
-        fetch("/api/todos")
+        fetch("http://localhost:8081/api/todos")
           .then(function (response) {
             return response.json();
           })
@@ -34,9 +34,28 @@
         function appendTodos(todos) {
           var todoContainer = document.getElementById("todoList");
           for (var i = 0; i < todos.length; i++) {
+            if (todos[i].done) continue;
             var li = document.createElement("li");
-            li.innerHTML = todos[i].description;
+            var buttonId = `todo-${todos[i].id}-button`;
+            li.innerHTML = `${todos[i].description} <button id="${buttonId}">Complete!</button>`;
             todoContainer.appendChild(li);
+            var todoId = todos[i].id;
+            document.getElementById(buttonId).addEventListener(
+              "click",
+
+              function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", "http://localhost:8081/api/todos/" + todoId);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState == XMLHttpRequest.DONE) {
+                    location.reload();
+                    return false;
+                  }
+                };
+              },
+              false
+            );
           }
         }
         // Create todos
@@ -45,7 +64,7 @@
           var xhr = new XMLHttpRequest();
           var formData = new FormData(form);
           //open the request
-          xhr.open("POST", "/api/todos");
+          xhr.open("POST", "http://localhost:8081/api/todos");
           xhr.setRequestHeader("Content-Type", "application/json");
 
           //send the form data
