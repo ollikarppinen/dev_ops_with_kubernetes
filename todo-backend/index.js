@@ -72,7 +72,7 @@ app.post(
 );
 
 app.put("/api/todos/:id", async (request, response) => {
-  client.query(markTodoDoneQuery(request.id), (err, res) => {
+  client.query(markTodoDoneQuery(parseInt(request.id)), (err, res) => {
     if (err) {
       console.log("mark todo done failed", err.stack);
       return response.status(400).json({ error: "Failed to mark todo done" });
