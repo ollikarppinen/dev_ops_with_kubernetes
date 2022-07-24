@@ -9,7 +9,7 @@ else
   docker build --tag todo-frontend .
   docker tag todo-frontend ollikarppinen/todo-frontend
   image=ollikarppinen/todo-frontend:"$(git rev-parse --short HEAD)"
-  docker tag todo-backend "$image"
+  docker tag todo-frontend "$image"
   docker push "$image"
   kustomize edit set image PROJECT/IMAGE="$image"
 fi
