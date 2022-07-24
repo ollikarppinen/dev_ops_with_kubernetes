@@ -7,4 +7,4 @@ resources:
 images:
 - name: PROJECT/IMAGE
   newName: ollikarppinen/todo-frontend
-  newTag: e2a81ba
+  newTag: 27854a1

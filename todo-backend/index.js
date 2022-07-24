@@ -3,6 +3,20 @@ const morgan = require("morgan");
 const { matchedData, body, validationResult } = require("express-validator");
 const cors = require("cors");
 const { Client } = require("pg");
+const nats = require("nats");
+
+const { connect, StringCodec } = nats;
+
+const NATS_URL =
+  process.env.NATS_URL || "nats://my-nats.default.svc.cluster.local:4222";
+const NATS_TODO_TOPIC = "todos";
+
+const publishMessage = async (message) => {
+  const nc = await connect({ servers: NATS_URL });
+  const sc = StringCodec();
+  nc.publish(NATS_TODO_TOPIC, sc.encode(message));
+  await nc.drain();
+};
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -59,6 +73,7 @@ app.post(
         console.log("create todo failed", err.stack);
         return response.status(400).json({ error: "Failed to create todo" });
       } else {
+        publishMessage(`A todo was created with description "${description}".`);
         return response.json({ description });
       }
     });
@@ -75,6 +90,7 @@ app.put("/api/todos/:id", async (request, response) => {
       console.log("mark todo done failed", err.stack);
       return response.status(400).json({ error: "Failed to mark todo done" });
     } else {
+      publishMessage(`Todo with id ${id} was marked as done.`);
       return response.status(200).json({});
     }
   });
