@@ -39,3 +39,7 @@ I chose to use persistent volume claims in the todo project because it was strai
 ## Screen from todo creation logs (Exercise 3.10)
 
 ![todo post logs image](./todo-post-logs.png)
+
+# Exercise 4.03
+
+![todo post logs image](./graphana-statefulsets.png)
