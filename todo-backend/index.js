@@ -72,7 +72,7 @@ app.post(
 
 app.put("/api/todos/:id", async (request, response) => {
   console.log("Params", request.params);
-  const id = request.params.id;
+  const id = parseInt(request.params.id);
   if (!Number.isInteger(id))
     return response.status(400).json({ error: "Id is not integer!" });
   client.query(markTodoDoneQuery(id), (err, res) => {
