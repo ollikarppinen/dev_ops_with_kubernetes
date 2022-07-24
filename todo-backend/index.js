@@ -22,6 +22,12 @@ const createTodoQuery = (description) => ({
   values: [description],
 });
 
+const markTodoDoneQuery = (id) => ({
+  name: "mark-todo-done",
+  text: "UPDATE todos SET done = true WHERE id = $1",
+  values: [id],
+});
+
 const fetchTodosQuery = {
   name: "fetch-todos",
   text: "SELECT * FROM todos",
@@ -64,6 +70,17 @@ app.post(
     });
   }
 );
+
+app.put("/api/todos/:id", async (request, response) => {
+  client.query(markTodoDoneQuery(request.id), (err, res) => {
+    if (err) {
+      console.log("mark todo done failed", err.stack);
+      return response.status(400).json({ error: "Failed to mark todo done" });
+    } else {
+      return response.status(200).json({});
+    }
+  });
+});
 
 app.get("/api/todos", async (request, response) => {
   client.query(fetchTodosQuery, (err, res) => {
