@@ -5,4 +5,4 @@ resources:
 images:
 - name: PROJECT/IMAGE
   newName: ollikarppinen/todo-publisher
-  newTag: d7cb5a2
+  newTag: de46cbd
