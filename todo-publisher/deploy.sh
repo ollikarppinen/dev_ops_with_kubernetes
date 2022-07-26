@@ -14,7 +14,7 @@ else
 fi
 
 export SOPS_AGE_KEY_FILE=../key.txt
-# sops --encrypt --age agePUBLIC_KEY manifests/secret.yaml > manifests/secret.enc.yaml
+# sops --encrypt --age age1k6608d8pzlhz0ffh8tlnax4mj0g7q4f3wggd68el69ruyhaegv0s9f5e9n manifests/secret.yaml > manifests/secret.enc.yaml
 sops --decrypt manifests/secret.enc.yaml | kubectl apply -f -
 
 kubectl apply -k .
