@@ -4,6 +4,8 @@ const request = require("request");
 const JSONStream = require("json-stream");
 const fs = require("fs").promises;
 
+console.log("Kube setup");
+
 const kc = new k8s.KubeConfig();
 
 process.env.NODE_ENV === "development"
@@ -101,7 +103,7 @@ const removePod = ({ namespace, pod_name }) =>
   );
 
 const run = async () => {
-  // (await client.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
+  console.log("Run 1")(await client.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
 
   /**
    * Watch Countdowns
