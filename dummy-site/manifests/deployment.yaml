@@ -15,4 +15,4 @@ spec:
       serviceAccountName: dummysite-controller-account
       containers:
         - name: dummysite-controller
-          image: jakousa/dwk-app10-controller:sha-4256579
+          image: ollikarppinen/dummysite-controller
