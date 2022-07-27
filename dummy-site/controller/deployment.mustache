@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{{ deployment_name }}}
+  namespace: {{{ namespace }}}
+  labels:
+    website_url: "{{ website_url }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{{ container_name }}}
+  template:
+    metadata:
+      labels:
+        app: {{{ container_name }}}
+    spec:
+      containers:
+        - name: {{{ container_name }}}
+          image: ollikarppinen/dummysite
+          env:
+            - name: DUMMY_SITE_URL
+              value: {{{ website_url }}}

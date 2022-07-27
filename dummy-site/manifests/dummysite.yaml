@@ -2,5 +2,6 @@ apiVersion: stable.dwk/v1
 kind: DummySite
 metadata:
   name: dymmysite
+  namespace: default
 spec:
   website_url: https://example.com/
