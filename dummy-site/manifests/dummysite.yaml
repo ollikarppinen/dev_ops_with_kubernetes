@@ -1,4 +1,4 @@
-apiVersion: stable.dwk/v1
+apiVersion: foo.bar/v1
 kind: DummySite
 metadata:
   name: dymmysite

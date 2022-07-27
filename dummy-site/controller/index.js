@@ -90,7 +90,7 @@ const removeJob = async ({ namespace, job_name }) => {
 
 const removeCountdown = ({ namespace, countdown_name }) =>
   sendRequestToApi(
-    `/apis/stable.dwk/v1/namespaces/${namespace}/countdowns/${countdown_name}`,
+    `/apis/foo.bar/v1/namespaces/${namespace}/countdowns/${countdown_name}`,
     "delete"
   );
 
@@ -128,9 +128,7 @@ const run = async () => {
 
   request
     .get(
-      `${
-        kc.getCurrentCluster().server
-      }/apis/stable.dwk/v1/dummysites?watch=true`,
+      `${kc.getCurrentCluster().server}/apis/foo.bar/v1/dummysites?watch=true`,
       opts
     )
     .pipe(dummySiteStream);
