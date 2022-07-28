@@ -11,8 +11,8 @@ rules:
   - apiGroups: ["batch"]
     # at the HTTP level, the name of the resource for accessing Job
     # objects is "jobs"
-    resources: ["jobs"]
+    resources: ["deployments"]
     verbs: ["get", "list", "watch", "create", "delete"]
-  - apiGroups: ["stable.dwk"]
-    resources: ["countdowns"]
+  - apiGroups: ["foo.bar"]
+    resources: ["dummysites"]
     verbs: ["get", "list", "watch", "create", "delete"]

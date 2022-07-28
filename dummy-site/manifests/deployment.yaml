@@ -16,3 +16,4 @@ spec:
       containers:
         - name: dummysite-controller
           image: ollikarppinen/dummysite-controller
+          imagePullPolicy: Always
