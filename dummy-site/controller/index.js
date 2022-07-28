@@ -139,15 +139,13 @@ const run = async () => {
   });
 
   try {
-    request
-      .get(
-        `${
-          kc.getCurrentCluster().server
-        }/apis/foo.bar/v1/dummysites?watch=true`,
-        `${kc.getCurrentCluster().server}/apis/foo.bar/v1/dummysites`,
-        opts
-      )
-      .pipe(dummySiteStream);
+    const url = `${
+      kc.getCurrentCluster().server
+    }/apis/foo.bar/v1/dummysites?watch=true`;
+
+    console.log("Connecting", { url, opts });
+
+    request.get(url, opts).pipe(dummySiteStream);
   } catch (err) {
     console.error(err);
   }
