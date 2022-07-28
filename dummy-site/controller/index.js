@@ -8,11 +8,17 @@ console.log("Kube setup");
 
 const kc = new k8s.KubeConfig();
 
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 process.env.NODE_ENV === "development"
   ? kc.loadFromDefault()
   : kc.loadFromCluster();
 
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+
+const opts = {};
+k8sApi
+  .listPodForAllNamespaces()
+  .then((res) => (opts.headers = res.response.request.headers));
 
 const sendRequestToApi = async (api, method = "get", options = {}) =>
   new Promise((resolve, reject) =>
@@ -23,13 +29,16 @@ const sendRequestToApi = async (api, method = "get", options = {}) =>
     )
   );
 
-const fieldsFromDummySite = (object) => ({
-  dummysite_name: object.metadata.name,
-  container_name: object.metadata.name,
-  deployment_name: `${object.metadata.name}-deployment`,
-  namespace: object.metadata.namespace,
-  website_url: object.spec.website_url,
-});
+const fieldsFromDummySite = (object) => {
+  if (!object) return {};
+  return {
+    dummysite_name: object.metadata.name,
+    container_name: object.metadata.name,
+    deployment_name: `${object.metadata.name}-deployment`,
+    namespace: object.metadata.namespace,
+    website_url: object.spec.website_url,
+  };
+};
 
 const renderDeploymentYaml = async (fields) => {
   const deploymentTemplate = await fs.readFile("deployment.mustache", "utf-8");
@@ -53,7 +62,6 @@ const renderDeploymentYaml = async (fields) => {
 //   namespace: object.metadata.namespace,
 // });
 
-const opts = {};
 // kc.applyToRequest(opts);
 
 const createDeployment = async (fields) => {
@@ -103,7 +111,8 @@ const removePod = ({ namespace, pod_name }) =>
   );
 
 const run = async () => {
-  console.log("Run 1")(await client.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
+  console.log("Run 1");
+  (await k8sApi.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
 
   /**
    * Watch Countdowns
@@ -114,6 +123,7 @@ const run = async () => {
   dummySiteStream.on("data", async ({ type, object }) => {
     console.log("dummySiteStream received data");
     console.log(type, object);
+
     const fields = fieldsFromDummySite(object);
     console.log(fields);
 
@@ -128,12 +138,19 @@ const run = async () => {
     }
   });
 
-  request
-    .get(
-      `${kc.getCurrentCluster().server}/apis/foo.bar/v1/dummysites?watch=true`,
-      opts
-    )
-    .pipe(dummySiteStream);
+  try {
+    request
+      .get(
+        `${
+          kc.getCurrentCluster().server
+        }/apis/foo.bar/v1/dummysites?watch=true`,
+        `${kc.getCurrentCluster().server}/apis/foo.bar/v1/dummysites`,
+        opts
+      )
+      .pipe(dummySiteStream);
+  } catch (err) {
+    console.error(err);
+  }
 
   /**
    * Watch Jobs
@@ -161,3 +178,32 @@ const run = async () => {
 };
 
 run();
+
+setInterval(() => console.log("Something failed, sleeping..."), 10000);
+
+// const k8s = require("@kubernetes/client-node");
+// const request = require("request");
+
+// process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
+// const kc = new k8s.KubeConfig();
+// kc.loadFromCluster();
+
+// const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+
+// var podsResult;
+// k8sApi.listPodForAllNamespaces().then((res) => (podsResult = res));
+
+// const opts = { headers: podsResult.response.request.headers };
+
+// const sendRequestToApi = async (api, method = "get", options = {}) =>
+//   new Promise((resolve, reject) =>
+//     request[method](
+//       `${kc.getCurrentCluster().server}${api}`,
+//       { ...opts, ...options, headers: { ...options.headers, ...opts.headers } },
+//       (err, res) => (err ? reject(err) : resolve(JSON.parse(res.body)))
+//     )
+//   );
+
+// var response;
+// sendRequestToApi("/apis/foo.bar/v1/dummysites").then((res) => (response = res));
