@@ -16,9 +16,6 @@ process.env.NODE_ENV === "development"
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
 const opts = {};
-k8sApi
-  .listPodForAllNamespaces()
-  .then((res) => (opts.headers = res.response.request.headers));
 
 const sendRequestToApi = async (api, method = "get", options = {}) =>
   new Promise((resolve, reject) =>
@@ -112,7 +109,9 @@ const removePod = ({ namespace, pod_name }) =>
 
 const run = async () => {
   console.log("Run 1");
-  (await k8sApi.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
+  opts.headers = (
+    await k8sApi.listPodForAllNamespaces()
+  ).response.request.headers;
 
   /**
    * Watch Countdowns
@@ -147,7 +146,7 @@ const run = async () => {
 
     request.get(url, opts).pipe(dummySiteStream);
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 
   /**
