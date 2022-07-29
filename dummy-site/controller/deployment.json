@@ -1,0 +1,31 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "namespace": "default",
+    "labels": {}
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {}
+    },
+    "template": {
+      "metadata": {
+        "labels": {}
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "ollikarppinen/dummysite",
+            "env": [
+              {
+                "name": "DUMMY_SITE_URL"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

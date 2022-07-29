@@ -1,7 +1,7 @@
 apiVersion: foo.bar/v1
 kind: DummySite
 metadata:
-  name: dymmysite
+  name: dummysite
   namespace: default
 spec:
-  website_url: https://example.com/
+  website_url: https://playgameoflife.com
