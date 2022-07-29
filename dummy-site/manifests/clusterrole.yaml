@@ -8,7 +8,7 @@ rules:
     # objects is "pods"
     resources: ["pods"]
     verbs: ["get", "list", "delete"]
-  - apiGroups: ["batch"]
+  - apiGroups: ["apps"]
     # at the HTTP level, the name of the resource for accessing Job
     # objects is "jobs"
     resources: ["deployments"]
