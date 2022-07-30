@@ -1,0 +1,261 @@
+apiVersion: v1
+items:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "2"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1"},"generation":1,"name":"todo-backend-dep","namespace":"todo","resourceVersion":"18437","uid":"aa4d7c68-5365-40bb-b796-36dbbe941114"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"todo-backend"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"linkerd.io/inject":"enabled"},"labels":{"app":"todo-backend"}},"spec":{"containers":[{"env":[{"name":"PGHOST","value":"postgres-svc"},{"name":"PGUSER","value":"postgres"},{"name":"PGDATABASE","value":"postgres"},{"name":"PGPORT","value":"5432"},{"name":"PGPASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"postgres-secret","optional":false}}}],"image":"ollikarppinen/todo-backend:27854a1","imagePullPolicy":"Always","name":"todo-backend","readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":3000,"scheme":"HTTP"},"initialDelaySeconds":10,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":1},"resources":{"limits":{"cpu":"150m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":1,"conditions":[{"message":"ReplicaSet \"todo-backend-dep-856d8586b4\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":1,"readyReplicas":1,"replicas":1,"updatedReplicas":1}}
+      generation: 2
+      name: todo-backend-dep
+      namespace: todo
+      resourceVersion: "19417"
+      uid: aa4d7c68-5365-40bb-b796-36dbbe941114
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: todo-backend
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            linkerd.io/inject: enabled
+          labels:
+            app: todo-backend
+        spec:
+          containers:
+            - env:
+                - name: PGHOST
+                  value: postgres-svc
+                - name: PGUSER
+                  value: postgres
+                - name: PGDATABASE
+                  value: postgres
+                - name: PGPORT
+                  value: "5432"
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: postgres-secret
+                      optional: false
+              image: ollikarppinen/todo-backend:27854a1
+              imagePullPolicy: Always
+              name: todo-backend
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthz
+                  port: 3000
+                  scheme: HTTP
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 150m
+                  memory: 200Mi
+                requests:
+                  cpu: 100m
+                  memory: 100Mi
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+    status:
+      availableReplicas: 1
+      conditions:
+        - message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - message: ReplicaSet "todo-backend-dep-59687f86d9" has successfully progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 2
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "2"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1"},"generation":1,"name":"todo-publisher-dep","namespace":"todo","resourceVersion":"18507","uid":"899d0680-1988-489f-85c2-160b03343998"},"spec":{"progressDeadlineSeconds":600,"replicas":2,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"todo-publisher"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"linkerd.io/inject":"enabled"},"labels":{"app":"todo-publisher"}},"spec":{"containers":[{"env":[{"name":"TELEGRAM_BOT_TOKEN","valueFrom":{"secretKeyRef":{"key":"bot_token","name":"telegram-secret","optional":false}}},{"name":"TELEGRAM_CHAT_ID","valueFrom":{"secretKeyRef":{"key":"chat_id","name":"telegram-secret","optional":false}}}],"image":"ollikarppinen/todo-publisher:de46cbd","imagePullPolicy":"Always","name":"todo-publisher","readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":3000,"scheme":"HTTP"},"initialDelaySeconds":10,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":1},"resources":{"limits":{"cpu":"150m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":2,"conditions":[{"message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"message":"ReplicaSet \"todo-publisher-dep-7b5969c84b\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":1,"readyReplicas":2,"replicas":2,"updatedReplicas":2}}
+      generation: 2
+      name: todo-publisher-dep
+      namespace: todo
+      resourceVersion: "19453"
+      uid: 899d0680-1988-489f-85c2-160b03343998
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 2
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: todo-publisher
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            linkerd.io/inject: enabled
+          labels:
+            app: todo-publisher
+        spec:
+          containers:
+            - env:
+                - name: TELEGRAM_BOT_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: bot_token
+                      name: telegram-secret
+                      optional: false
+                - name: TELEGRAM_CHAT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: chat_id
+                      name: telegram-secret
+                      optional: false
+              image: ollikarppinen/todo-publisher:de46cbd
+              imagePullPolicy: Always
+              name: todo-publisher
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthz
+                  port: 3000
+                  scheme: HTTP
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 150m
+                  memory: 200Mi
+                requests:
+                  cpu: 100m
+                  memory: 100Mi
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+    status:
+      availableReplicas: 2
+      conditions:
+        - message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - message: ReplicaSet "todo-publisher-dep-578b985f97" has successfully progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 2
+      readyReplicas: 2
+      replicas: 2
+      updatedReplicas: 2
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "2"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1"},"generation":1,"name":"todo-frontend-dep","namespace":"todo","resourceVersion":"18309","uid":"2dbfb43e-f282-4e3a-a58c-7a189ff36316"},"spec":{"progressDeadlineSeconds":600,"replicas":2,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"todo-frontend"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"annotations":{"linkerd.io/inject":"enabled"},"labels":{"app":"todo-frontend"}},"spec":{"containers":[{"env":[{"name":"PERSISTED_IMAGE_PATH","value":"/app/shared-image/image.jpg"}],"image":"ollikarppinen/todo-frontend:27854a1","imagePullPolicy":"Always","name":"todo-frontend","readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":3000,"scheme":"HTTP"},"initialDelaySeconds":10,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":1},"resources":{"limits":{"cpu":"150m","memory":"200Mi"},"requests":{"cpu":"100m","memory":"100Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/app/shared-image","name":"shared-image"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"shared-image","persistentVolumeClaim":{"claimName":"todo-pv-claim"}}]}}},"status":{"availableReplicas":2,"conditions":[{"message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"message":"ReplicaSet \"todo-frontend-dep-844d78f56\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":1,"readyReplicas":2,"replicas":2,"updatedReplicas":2}}
+      generation: 2
+      name: todo-frontend-dep
+      namespace: todo
+      resourceVersion: "19463"
+      uid: 2dbfb43e-f282-4e3a-a58c-7a189ff36316
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 2
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: todo-frontend
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            linkerd.io/inject: enabled
+          labels:
+            app: todo-frontend
+        spec:
+          containers:
+            - env:
+                - name: PERSISTED_IMAGE_PATH
+                  value: /app/shared-image/image.jpg
+              image: ollikarppinen/todo-frontend:27854a1
+              imagePullPolicy: Always
+              name: todo-frontend
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /healthz
+                  port: 3000
+                  scheme: HTTP
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  cpu: 150m
+                  memory: 200Mi
+                requests:
+                  cpu: 100m
+                  memory: 100Mi
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /app/shared-image
+                  name: shared-image
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - name: shared-image
+              persistentVolumeClaim:
+                claimName: todo-pv-claim
+    status:
+      availableReplicas: 2
+      conditions:
+        - message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - message: ReplicaSet "todo-frontend-dep-69c4d46785" has successfully progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 2
+      readyReplicas: 2
+      replicas: 2
+      updatedReplicas: 2
+kind: List
+metadata: {}
