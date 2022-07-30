@@ -43,3 +43,7 @@ I chose to use persistent volume claims in the todo project because it was strai
 # Exercise 4.03
 
 ![todo post logs image](./graphana-statefulsets.png)
+
+# Exercise 5.03
+
+![todo post logs image](./linkerd-canary-deploy.png)
