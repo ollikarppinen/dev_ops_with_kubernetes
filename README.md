@@ -47,3 +47,23 @@ I chose to use persistent volume claims in the todo project because it was strai
 # Exercise 5.03
 
 ![todo post logs image](./linkerd-canary-deploy.png)
+
+# Exercise 5.04: Platform comparison
+
+<!--
+Choose one service provider such as Rancher and compare it to another such as OpenShift.
+
+Decide arbitrarily which service provider is "better" and argue for it against the other service provider.
+
+For the submission a bullet point list is enough.
+-->
+
+I choose to compare Rancher to OpenShift. I've arbitraily decided that Rancher is "better" service provider than OpenShift.
+
+Here's post-factum bullet point arguments:
+
+- Installation and maintenance is quicker and easier
+- Better multi-cloud and multi-cluster support
+- The community around it bigger. Most likely the ease of installation and adoption has something to do with it.
+- Supports hosted kubernetes deployments like EKS, GKE and AKS
+- Better and non-proprietary load balancing out of the box
