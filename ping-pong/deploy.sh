@@ -2,7 +2,12 @@
 
 kubectl create namespace log
 
-docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag ollikarppinen/ping-pong .
+if [ -z "$BUILD" ]
+then
+  echo "Skipping build..."
+else
+  docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag ollikarppinen/ping-pong .
+fi
 
 
 kubectl apply -f ../manifests/log-pv.yaml
