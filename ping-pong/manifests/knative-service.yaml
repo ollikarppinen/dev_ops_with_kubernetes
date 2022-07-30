@@ -1,0 +1,30 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ping-pong
+  namespace: log
+spec:
+  template:
+    metadata:
+      name: ping-pong-v3
+    spec:
+      containers:
+        - name: ping-pong
+          image: ollikarppinen/ping-pong
+          env:
+            - name: PGHOST
+              value: "postgres-svc"
+            - name: PGUSER
+              value: "postgres"
+            - name: PGDATABASE
+              value: "postgres"
+            - name: PGPORT
+              value: "5432"
+            - name: EXPRESS_PORT
+              value: "8080"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+                  optional: false

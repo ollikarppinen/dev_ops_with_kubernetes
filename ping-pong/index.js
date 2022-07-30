@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const { Client } = require("pg");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const EXPRESS_PORT = process.env.EXPRESS_PORT || 3000;
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -55,6 +55,6 @@ app.get("/pingpong", (request, response) => {
   });
 });
 
-app.listen(PORT, () =>
-  console.log(`Express server currently running on port ${PORT}`)
+app.listen(EXPRESS_PORT, () =>
+  console.log(`Express server currently running on port ${EXPRESS_PORT}`)
 );
