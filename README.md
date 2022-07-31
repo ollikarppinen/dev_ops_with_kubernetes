@@ -72,6 +72,8 @@ Here's post-factum bullet point arguments:
 
 ![cloud native landscape](./landscape.png)
 
+## Stuff I've used:
+
 - I've used MongoDB outside of the course
 - I've used MySQL outside of the course
 - I used PostgreSQL for all relational DB needs on this course as well as outside of the course
@@ -84,6 +86,7 @@ Here's post-factum bullet point arguments:
 - I've used Gradle outside of the course
 - I've used OpenAPI outside of the course
 - I used Flux to implement GitOps deployments on this course
+- I used Github Actions to automate project deployment to GKE
 - I've used Gitlab outside of the course
 - I've used Jenkins outside of the course
 - I've used TeamCity outside of the course
@@ -113,3 +116,8 @@ Here's post-factum bullet point arguments:
 - I've used Splunk outside of the course
 - I've used Sumo Logic outside of the course
 - I've used Open Telemetry outside of the course
+
+## Stuff I've used by proxy
+
+- k3d uses k3s
+- k3s uses flannel, kube router, runc, containerd, ingress and coredns
