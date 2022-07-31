@@ -67,3 +67,49 @@ Here's post-factum bullet point arguments:
 - The community around it bigger. Most likely the ease of installation and adoption has something to do with it.
 - Supports hosted kubernetes deployments like EKS, GKE and AKS
 - Better and non-proprietary load balancing out of the box
+
+# Exercise 5.06: Landscape
+
+![cloud native landscape](./landscape.png)
+
+- I've used MongoDB outside of the course
+- I've used MySQL outside of the course
+- I used PostgreSQL for all relational DB needs on this course as well as outside of the course
+- I've used Redis outside of the course
+- I used NATS for the publisher messaging on this course
+- I've used Spark outside of the course
+- I've used Google Cloud Database outside of the course
+- I've used RabbitMQ outside of the course
+- I used HELM to install various Kubernetes extensions on this course
+- I've used Gradle outside of the course
+- I've used OpenAPI outside of the course
+- I used Flux to implement GitOps deployments on this course
+- I've used Gitlab outside of the course
+- I've used Jenkins outside of the course
+- I've used TeamCity outside of the course
+- I've used AWS platform outside of the course
+- I used Kubernetes on this course for - everything
+- I've used gRPC platform outside of the course
+- I've used Envoy platform outside of the course
+- I've used Nginx platform outside of the course
+- I used Trafik as the default k3d lb
+- I used Linkerd to create project service mesh on this course
+- I've used Consul platform outside of the course
+- I've used Istio platform outside of the course
+- I used Google Cloud Engine for deploying the projects
+- I've used Heroku outside of the course
+- I've used Terraform outside of the course
+- I've used Google Container Registry outside of the course
+- I've used Prisma Cloud outside of the course
+- I've used Snyk outside of the course
+- I used Prometheus to setup logging for the project
+- I've used DataDog outside of the course
+- I used Google Stackdriver when I was deploying stuff to GKE
+- I used Grafana to view the data collected on prometheus on this project
+- I've used Sentry outside of the course
+- I've used SignalFx outside of the course
+- I've used Elastic outside of the course
+- I've used Logstash outside of the course
+- I've used Splunk outside of the course
+- I've used Sumo Logic outside of the course
+- I've used Open Telemetry outside of the course
